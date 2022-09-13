@@ -1,23 +1,24 @@
 
 require_relative "./display.rb"
 
-class Player
-  
+class PlayerBreaker
+  def initialize
+  end
+
+  def guessCode
+  end
 end
 
-class Human < Player
-  
-end
-
-class Computer < Player
+class ComputerBreaker
 
 end
 
-class GameExecute
+class GamePlay
 include Display
   def initialize
     @guesses_left = 12
-    @code = nil
+    @code = []
+    @clue = []
   end
 
   def startGame
@@ -27,15 +28,53 @@ include Display
       break currentChoice if["1","2"].include? currentChoice
       puts "Please choose 1 or 2"
     end
-    p choice
     createPlayers(choice)
   end
-  
+
+  private
   def createPlayers(playerChoice)
-    
+    if playerChoice == "1"
+      player = PlayerBreaker.new
+      generateCode
+      p @code.join
+      textOne
+      playRounds
+    else
+      textTwo
+      @code = loop do
+        currentChoice = gets.chomp
+        break currentChoice if currentChoice.match? /[1-6][1-6][1-6][1-6]/
+        puts "Please enter a 4-digit code of 1-6 only"
+      end
+      # createCode
+      # playRounds
+    end
   end
 
+  def playRounds
+    while @guesses_left > 0
+      guess = loop do
+        currentChoice = gets.chomp
+        break currentChoice if currentChoice.match? /[1-6][1-6][1-6][1-6]/
+        puts "Please enter a 4-digit code of 1-6 only"
+      end
+      checkGuess(guess.split(''), @code)
+      @guesses_left -= 1
+    end
+  end
+    
+  def generateCode
+    for i in 1..4
+      @code.push(rand(6))
+    end
+  end
+
+  def checkGuess(guess, code)
+    guess.each_with_index do | element, index |
+      
+    end
+  end
 end
 
-newGame = GameExecute.new
+newGame = GamePlay.new
 newGame.startGame

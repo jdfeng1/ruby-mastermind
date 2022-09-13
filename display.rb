@@ -5,4 +5,12 @@ module Display
     puts "\nChoose: Do you want to be CODE BREAKER or CODE MAKER?\n"
     puts "Press [1] for BREAKER\nPress [2] for MAKER\n"
   end
+
+  def textOne
+    puts "Code is set. Enter any 4-digit guess containing 1-6"
+  end
+
+  def textTwo
+    puts "What would you like the code to be?"
+  end
 end
