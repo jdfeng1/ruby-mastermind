@@ -32,6 +32,7 @@ include Display
   end
 
   private
+
   def createPlayers(playerChoice)
     if playerChoice == "1"
       player = PlayerBreaker.new
@@ -56,13 +57,12 @@ include Display
       puts "ROUND #{13 - @guesses_left}"
       guess = loop do
         currentChoice = gets.chomp
-        break currentChoice if currentChoice.match? /[1-6][1-6][1-6][1-6]/
+        break currentChoice if currentChoice.match? /(?=^.{4}$)[1-6][1-6][1-6][1-6]/
         puts "Please enter a 4-digit code of 1-6 only"
       end
       checkGuess(guess.split(''), @code)
       @guesses_left -= 1
-      puts "\nCLUE: #{@clue.join}"
-      puts "#{@guesses_left} guesses left:"
+      puts "\nCLUE: #{@clue.sort.reverse.join}"
       @clue.clear
     end
   end
@@ -74,15 +74,21 @@ include Display
   end
 
   def checkGuess(guess, code)
+    codeCheck = code.clone
     guess.each_with_index do |element, index|
-      if code[index] == element
+      if codeCheck[index] == element
         @clue.push("X")
-      elsif code.include? element
-        @clue.push("O")
-      else
-        next
+        codeCheck[index] = nil
       end
     end
+    guess.each_with_index do |element, index|
+      if codeCheck.include? element
+        @clue.push("O")
+        codeCheck[codeCheck.index(element)] = nil
+      end
+    end
+    p codeCheck
+    p code
   end
 end
 
