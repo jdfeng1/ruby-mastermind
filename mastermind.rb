@@ -62,7 +62,7 @@ include Display
       end
       checkGuess(guess.split(''), @code)
       @guesses_left -= 1
-      puts "\nCLUE: #{@clue.sort.reverse.join}"
+      puts "\nCLUE: #{@clue.sort.reverse.join}" unless @guesses_left <= 0
       @clue.clear
     end
   end
@@ -73,22 +73,29 @@ include Display
     end
   end
 
+  def createCode
+
+  end
+
   def checkGuess(guess, code)
-    codeCheck = code.clone
-    guess.each_with_index do |element, index|
-      if codeCheck[index] == element
-        @clue.push("X")
-        codeCheck[index] = nil
+    code_check = code.clone
+    if guess == code_check
+      puts "\nYou guessed the code!"
+      @guesses_left = 0
+    else
+      guess.each_with_index do |element, index|
+        if code_check[index] == element
+          @clue.push("X")
+          code_check[index] = nil
+        end
+      end
+      guess.each_with_index do |element, index|
+        if code_check.include? element
+          @clue.push("O")
+          code_check[code_check.index(element)] = nil
+        end
       end
     end
-    guess.each_with_index do |element, index|
-      if codeCheck.include? element
-        @clue.push("O")
-        codeCheck[codeCheck.index(element)] = nil
-      end
-    end
-    p codeCheck
-    p code
   end
 end
 
