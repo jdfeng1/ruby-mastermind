@@ -65,6 +65,9 @@ include Display
       puts "\nCLUE: #{@clue.sort.reverse.join}" unless @guesses_left <= 0
       @clue.clear
     end
+    if @guesses_left == 0
+      puts "\nSorry, you lost :( The code was #{@code.join}\n"
+    end
   end
     
   def generateCode
