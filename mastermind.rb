@@ -1,15 +1,7 @@
 
 require_relative "./display.rb"
 
-class PlayerBreaker
-  def initialize
-  end
-
-  def guessCode
-  end
-end
-
-class ComputerBreaker
+class Computer
 
 end
 
@@ -35,19 +27,12 @@ include Display
 
   def createPlayers(playerChoice)
     if playerChoice == "1"
-      player = PlayerBreaker.new
       generateCode
-      p @code.join
       textOne
       playRounds
     else
       textTwo
-      @code = loop do
-        currentChoice = gets.chomp
-        break currentChoice if currentChoice.match? /[1-6][1-6][1-6][1-6]/
-        puts "Please enter a 4-digit code of 1-6 only"
-      end
-      # createCode
+      createCode
       # playRounds
     end
   end
@@ -77,7 +62,13 @@ include Display
   end
 
   def createCode
-
+    code_input = loop do
+      currentChoice = gets.chomp
+      break currentChoice if currentChoice.match? /[1-6][1-6][1-6][1-6]/
+      puts "Please enter a 4-digit code of 1-6 only"
+    end
+    @code = code_input.split("")
+    p @code
   end
 
   def checkGuess(guess, code)
