@@ -140,7 +140,6 @@ include Display
       puts "Please enter a 4-digit code of 1-6 only"
     end
     @code = code_input.split("")
-    p @code
   end
 
   def checkGuess(guess, code)
