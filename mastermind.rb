@@ -87,6 +87,7 @@ include Display
       createCode
       playComputer
     end
+    playAgain?
   end
 
   def playComputer
@@ -168,6 +169,21 @@ include Display
       puts "You guessed the code!"
     else
       puts "Computer guessed the code!"
+    end
+  end
+
+  def playAgain?
+    puts "Play again? [Y/N]"
+    choice = loop do
+      currentChoice = gets.chomp.upcase
+      break currentChoice if ["Y","N"].include? currentChoice 
+      puts "Please select [Y]es or [N]o"
+    end
+    if choice == "Y"
+      initialize
+      startGame
+    else
+      puts "\nGoodbye\n"
     end
   end
 end
